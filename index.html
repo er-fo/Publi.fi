@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publify - Build in Public, Effortlessly</title>
+    <meta name="description" content="Transform your GitHub activity into engaging social media content. Grow your audience while you focus on building.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .problem {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .discount-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .waitlist-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+        
+        .waitlist-form input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+        
+        .waitlist-form input::placeholder {
+            color: #666;
+        }
+        
+        .waitlist-form button {
+            background: #1e293b;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .waitlist-form button:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+        }
+        
+        .success-message {
+            display: none;
+            background: #10b981;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .footer-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .problem {
+                font-size: 1rem;
+            }
+            
+            .waitlist-form {
+                flex-direction: column;
+                max-width: 300px;
+            }
+            
+            .waitlist-form input {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="logo">Publify</h1>
+        <p class="tagline">Transform your GitHub activity into engaging social media content</p>
+        <p class="problem">Stop staring at blank tweet composers. Let AI turn your real development work into authentic posts for Twitter and Reddit.</p>
+        
+        <div class="discount-badge">🎉 Early Access: 30% Lifetime Discount</div>
+        
+        <form id="waitlist-form" class="waitlist-form">
+            <input type="email" name="email" placeholder="Enter your email" required />
+            <button type="submit">Join Waitlist</button>
+        </form>
+        
+        <div id="success-message" class="success-message">
+            🎉 Thanks for joining! Check your email for confirmation.
+        </div>
+        
+        <p class="footer-note">For indie developers who want to build in public, effortlessly</p>
+    </div>
+
+    <script>
+        document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const button = e.target.querySelector('button');
+            const originalText = button.textContent;
+            
+            // Show loading state
+            button.textContent = 'Joining...';
+            button.disabled = true;
+            
+            try {
+                await fetch('https://hooks.zapier.com/hooks/catch/17750847/uo09zk5/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                // Show success message
+                document.getElementById('success-message').style.display = 'block';
+                e.target.reset();
+                
+            } catch (error) {
+                alert('Something went wrong. Please try again.');
+            } finally {
+                // Reset button
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
