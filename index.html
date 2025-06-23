@@ -211,20 +211,26 @@
             button.disabled = true;
             
             try {
-                await fetch('https://script.google.com/macros/s/AKfycbwPmCYSQ4bOsswROqYhKhHeHZITeCsvbemvimFejBnL5cWECiSDztc731g1ICmCND9wPA/exec', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        email: email,
-                        referral_code: referralCode || ''
-                    })
+                // Use GET request with URL parameters instead of POST
+                const url = new URL('https://script.google.com/macros/s/AKfycbwPmCYSQ4bOsswROqYhKhHeHZITeCsvbemvimFejBnL5cWECiSDztc731g1ICmCND9wPA/exec');
+                url.searchParams.append('email', email);
+                url.searchParams.append('referral_code', referralCode || '');
+                url.searchParams.append('action', 'signup');
+                
+                const response = await fetch(url.toString(), {
+                    method: 'GET',
+                    mode: 'cors'
                 });
+                
+                const result = await response.text();
+                console.log('Response:', result);
                 
                 // Show success message
                 document.getElementById('success-message').style.display = 'block';
                 e.target.reset();
                 
             } catch (error) {
+                console.error('Error:', error);
                 alert('Something went wrong. Please try again.');
             } finally {
                 // Reset button
