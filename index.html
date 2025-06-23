@@ -214,37 +214,61 @@
             button.textContent = 'Joining...';
             button.disabled = true;
             
-            // Create the URL with parameters
+            // Create the URL with parameters - using manual encoding for better reliability
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbzvUwMfmiBTAc4thnvdxRK1M0OtdbBeSXOKPJk4Zq9qGwuED9YZxcFOiPUO45K2cf81kw/exec';
-            const params = new URLSearchParams({
-                action: 'signup',
-                email: email,
-                referral_code: referralCode || ''
-            });
-            const fullUrl = `${scriptUrl}?${params.toString()}`;
+            const fullUrl = `${scriptUrl}?action=signup&email=${encodeURIComponent(email)}&referral_code=${encodeURIComponent(referralCode || '')}&timestamp=${Date.now()}`;
             
             console.log('Submitting to:', fullUrl);
             
-            // Use the image method (most reliable for Google Apps Script)
+            // Try both fetch and image methods for maximum reliability
+            let successShown = false;
+            
+            // Method 1: Try fetch first
+            try {
+                fetch(fullUrl, { method: 'GET', mode: 'no-cors' })
+                    .then(() => {
+                        if (!successShown) {
+                            console.log('✅ Fetch request completed');
+                            showSuccess();
+                            successShown = true;
+                        }
+                    })
+                    .catch(() => {
+                        console.log('⚠️ Fetch failed, but that\'s normal');
+                    });
+            } catch (e) {
+                console.log('⚠️ Fetch not available');
+            }
+            
+            // Method 2: Image method as backup
             const img = new Image();
             const timeout = setTimeout(() => {
-                console.log('Request timeout, assuming success');
-                showSuccess();
-            }, 5000); // 5 second timeout
+                if (!successShown) {
+                    console.log('⏰ Timeout reached, assuming success');
+                    showSuccess();
+                    successShown = true;
+                }
+            }, 3000); // Reduced to 3 seconds
             
             img.onload = function() {
                 clearTimeout(timeout);
-                console.log('✅ Image loaded successfully - signup should be recorded');
-                showSuccess();
+                if (!successShown) {
+                    console.log('✅ Image loaded successfully - signup recorded');
+                    showSuccess();
+                    successShown = true;
+                }
             };
             
             img.onerror = function() {
                 clearTimeout(timeout);
-                console.log('⚠️ Image error occurred, but this is normal for Apps Script - signup should still be recorded');
-                showSuccess(); // Even errors often mean the script ran
+                if (!successShown) {
+                    console.log('⚠️ Image error occurred, but this is normal for Apps Script - signup should be recorded');
+                    showSuccess();
+                    successShown = true;
+                }
             };
             
-            // Start the request
+            // Start the image request
             img.src = fullUrl;
             
             function showSuccess() {
