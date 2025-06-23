@@ -160,6 +160,7 @@
         
         <form id="waitlist-form" class="waitlist-form">
             <input type="email" name="email" placeholder="Enter your email" required />
+            <input type="hidden" name="referral_code" id="referral_code" />
             <button type="submit">Join Waitlist</button>
         </form>
         
@@ -171,9 +172,37 @@
     </div>
 
     <script>
+        // Check for referral code in URL and display message
+        function checkReferralCode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode) {
+                document.getElementById('referral_code').value = refCode;
+                
+                // Show referral message
+                const container = document.querySelector('.container');
+                const referralBanner = document.createElement('div');
+                referralBanner.style.cssText = `
+                    background: rgba(255, 255, 255, 0.2);
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 10px;
+                    padding: 1rem;
+                    margin-bottom: 2rem;
+                    font-weight: 500;
+                `;
+                referralBanner.innerHTML = `🎉 You've been invited! Code: <strong>${refCode}</strong> - You'll get early access!`;
+                container.insertBefore(referralBanner, container.children[3]); // Insert after problem text
+            }
+        }
+        
+        // Call on page load
+        checkReferralCode();
+        
         document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = e.target.email.value;
+            const referralCode = e.target.referral_code.value;
             const button = e.target.querySelector('button');
             const originalText = button.textContent;
             
@@ -185,7 +214,10 @@
                 await fetch('https://hooks.zapier.com/hooks/catch/17750847/uo09zk5/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify({ 
+                        email: email,
+                        referral_code: referralCode || ''
+                    })
                 });
                 
                 // Show success message
