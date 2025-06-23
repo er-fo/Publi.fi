@@ -172,7 +172,7 @@
         </div>
         
         <p class="footer-note">For indie developers who want to build in public, effortlessly</p>
-        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">v2.3 - Fixed script URL</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">v2.4 - Email system enabled</p>
     </div>
 
     <script>
@@ -215,7 +215,7 @@
             button.disabled = true;
             
             // Create the URL with parameters - using manual encoding for better reliability
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwdeBYfduG3Ror3iD79Of61gY8qijQslCMcl3FFt9NyJ5BDkug2DNqrhVsbWQUZ4Pf4-g/exec';
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyv8comPtB-uCBCu5mOcyiYMVU0iDuSUFZ6PjFUAas-jWYmlUr4XmNax-5HztDo-fKqUQ/exec';
             const fullUrl = `${scriptUrl}?action=signup&email=${encodeURIComponent(email)}&referral_code=${encodeURIComponent(referralCode || '')}&timestamp=${Date.now()}`;
             
             console.log('Submitting to:', fullUrl);
