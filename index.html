@@ -172,7 +172,7 @@
         </div>
         
         <p class="footer-note">For indie developers who want to build in public, effortlessly</p>
-        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">v2.4 - Email system enabled</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">v2.5 - Fixed duplicate entries</p>
     </div>
 
     <script>
@@ -220,55 +220,26 @@
             
             console.log('Submitting to:', fullUrl);
             
-            // Try both fetch and image methods for maximum reliability
-            let successShown = false;
-            
-            // Method 1: Try fetch first
-            try {
-                fetch(fullUrl, { method: 'GET', mode: 'no-cors' })
-                    .then(() => {
-                        if (!successShown) {
-                            console.log('✅ Fetch request completed');
-                            showSuccess();
-                            successShown = true;
-                        }
-                    })
-                    .catch(() => {
-                        console.log('⚠️ Fetch failed, but that\'s normal');
-                    });
-            } catch (e) {
-                console.log('⚠️ Fetch not available');
-            }
-            
-            // Method 2: Image method as backup
+            // Use image method only (most reliable for Google Apps Script)
             const img = new Image();
             const timeout = setTimeout(() => {
-                if (!successShown) {
-                    console.log('⏰ Timeout reached, assuming success');
-                    showSuccess();
-                    successShown = true;
-                }
-            }, 3000); // Reduced to 3 seconds
+                console.log('⏰ Timeout reached, assuming success');
+                showSuccess();
+            }, 4000); // 4 second timeout
             
             img.onload = function() {
                 clearTimeout(timeout);
-                if (!successShown) {
-                    console.log('✅ Image loaded successfully - signup recorded');
-                    showSuccess();
-                    successShown = true;
-                }
+                console.log('✅ Image loaded successfully - signup recorded');
+                showSuccess();
             };
             
             img.onerror = function() {
                 clearTimeout(timeout);
-                if (!successShown) {
-                    console.log('⚠️ Image error occurred, but this is normal for Apps Script - signup should be recorded');
-                    showSuccess();
-                    successShown = true;
-                }
+                console.log('⚠️ Image error occurred, but this is normal for Apps Script - signup should be recorded');
+                showSuccess();
             };
             
-            // Start the image request
+            // Start the request
             img.src = fullUrl;
             
             function showSuccess() {
