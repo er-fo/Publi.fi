@@ -605,7 +605,7 @@ Sometimes the smallest bugs teach you the most about your system
 <span class="tweet-hashtags">#BugFix #WebDev</span>`,
                 twitterMetrics: {
                     engagement: ['💬 18', '🔄 12', '❤️ 45'],
-                    prediction: '📊 Predicted 2.8x higher engagement (bug fix posts perform well)'
+                    prediction: '📊 Predicted 2.8x higher engagement'
                 },
                 reddit: {
                     title: 'Week 8 building in public: The commit that taught me everything about user behavior',
@@ -641,7 +641,7 @@ The little details make all the difference 🎨
 <span class="tweet-hashtags">#ProductUpdate #IndieHacking</span>`,
                 twitterMetrics: {
                     engagement: ['💬 24', '🔄 15', '❤️ 67'],
-                    prediction: '🚀 Predicted 3.2x higher engagement (product updates get great traction)'
+                    prediction: '🚀 Predicted 3.2x higher engagement'
                 },
                 reddit: {
                     title: 'Small UI update, massive impact: Why user avatars changed everything',
@@ -677,7 +677,7 @@ Performance optimization: where 1 hour of work saves users thousands of hours
 <span class="tweet-hashtags">#Performance #BackendDev</span>`,
                 twitterMetrics: {
                     engagement: ['💬 31', '🔄 22', '❤️ 89'],
-                    prediction: '⚡ Predicted 4.1x higher engagement (performance wins resonate strongly)'
+                    prediction: '⚡ Predicted 4.1x higher engagement'
                 },
                 reddit: {
                     title: 'Performance optimization that saved our startup: 800ms → 120ms',
@@ -710,26 +710,30 @@ What performance optimizations made the biggest impact for your product?`
             return new Promise((resolve) => {
                 element.innerHTML = '';
                 let i = 0;
+                const cleanText = text.replace(/<br>/g, '\n').replace(/<[^>]*>/g, (match) => `|HTML|${match}|HTML|`);
+                let displayText = '';
                 
                 function type() {
-                    if (i < text.length) {
-                        if (text.substr(i, 4) === '<br>') {
-                            element.innerHTML += '<br>';
-                            i += 4;
-                        } else if (text.charAt(i) === '<') {
-                            // Handle HTML tags
-                            let tagEnd = text.indexOf('>', i);
-                            if (tagEnd !== -1) {
-                                element.innerHTML += text.substring(i, tagEnd + 1);
-                                i = tagEnd + 1;
+                    if (i < cleanText.length) {
+                        if (cleanText.substr(i, 6) === '|HTML|') {
+                            // Find the end of the HTML tag
+                            const endTag = cleanText.indexOf('|HTML|', i + 6);
+                            if (endTag !== -1) {
+                                const htmlTag = cleanText.substring(i + 6, endTag);
+                                displayText += htmlTag;
+                                i = endTag + 6;
                             } else {
-                                element.innerHTML += text.charAt(i);
+                                displayText += cleanText.charAt(i);
                                 i++;
                             }
+                        } else if (cleanText.charAt(i) === '\n') {
+                            displayText += '<br>';
+                            i++;
                         } else {
-                            element.innerHTML += text.charAt(i);
+                            displayText += cleanText.charAt(i);
                             i++;
                         }
+                        element.innerHTML = displayText;
                         setTimeout(type, speed);
                     } else {
                         resolve();
