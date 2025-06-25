@@ -464,7 +464,7 @@
         <p class="tagline">Transform your GitHub activity into engaging social media content</p>
         <p class="problem">Stop staring at blank tweet composers. Let AI turn your real development work into authentic posts for Twitter and Reddit.</p>
     </div>
-
+        
     <div class="waitlist-section">
         <div class="discount-badge">🎉 Early Access: 30% Lifetime Discount</div>
         
@@ -546,7 +546,7 @@
                                 🐛 Fixed that annoying login timeout bug that was driving users crazy<br><br>
                                 The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. One line change, hours of debugging 😅<br><br>
                                 Sometimes the smallest bugs teach you the most about your system<br><br>
-                                <span class="tweet-hashtags">#BugFix #WebDev</span>
+                                #BugFix #WebDev
                             </div>
                             <div class="tweet-metrics">
                                 <span>💬 12</span>
@@ -609,44 +609,28 @@ The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. O
 
 Sometimes the smallest bugs teach you the most about your system
 
-#BugFix #WebDev`,
-
-`🔧 Just squashed a critical auth bug
-
-Users were getting logged out randomly every 28 minutes. Turns out our JWT expiry calculation was off by 120 seconds
-
-2 hours of debugging, 1 character fix. Classic developer life 😤
-
-#AuthFix #DebuggingLife`,
-
-`Bug hunting success! 🎯
-
-Fixed the session timeout issue that's been haunting our users. The culprit? A premature token refresh causing silent logouts
-
-Sometimes the most invisible bugs cause the biggest user pain
-
-#BugFix #UX`],
+#BugFix #WebDev`],
                 reddit: {
                     title: 'Week 8 building in public: The commit that taught me everything about user behavior',
-                    content: `Hey r/microsaas!
+                    content: `Hey r/microsaas!<br><br>
 
-Back with another weekly update from the trenches. This week I shipped something tiny that completely changed how I think about product development.
+Back with another weekly update from the trenches. This week I shipped something tiny that completely changed how I think about product development.<br><br>
 
-**The Context:**
-I've been working on an authentication service for indie developers. Nothing revolutionary - just solving a pain point I had myself.
+<strong>The Context:</strong><br>
+I've been working on an authentication service for indie developers. Nothing revolutionary - just solving a pain point I had myself.<br><br>
 
-**The "Small" Commit:**
-Fixed a JWT token refresh bug that was causing timeouts. Took 2 hours to debug, 1 line to fix.
+<strong>The "Small" Commit:</strong><br>
+Fixed a JWT token refresh bug that was causing timeouts. Took 2 hours to debug, 1 line to fix.<br><br>
 
-**What Happened Next:**
-- Support tickets dropped 80% overnight
-- User retention improved significantly
-- Realized users were silently churning due to this "small" bug
+<strong>What Happened Next:</strong><br>
+- Support tickets dropped 80% overnight<br>
+- User retention improved significantly<br>
+- Realized users were silently churning due to this "small" bug<br><br>
 
-**The Lesson:**
-Sometimes the least exciting commits have the biggest impact. That flashy new feature? 12% adoption. This invisible bug fix? Changed everything.
+<strong>The Lesson:</strong><br>
+Sometimes the least exciting commits have the biggest impact. That flashy new feature? 12% adoption. This invisible bug fix? Changed everything.<br><br>
 
-Always building,
+Always building,<br>
 u/johnbuilds`
                 },
                 metrics: {
@@ -661,23 +645,7 @@ Nothing fancy - just Gravatar integration + fallback to initials. But it's amazi
 
 The little details make all the difference 🎨
 
-#ProductUpdate #IndieHacking`,
-
-`New feature alert: User avatars! 👤
-
-Small change, huge impact. Our app went from feeling like a spreadsheet to feeling like a community overnight
-
-Amazing how 40px circles can transform an entire UX
-
-#UI #ProductDevelopment`,
-
-`Shipped: Profile avatars with Gravatar integration ✨
-
-3 hours of dev work, immediate user feedback: "This feels so much more professional now"
-
-Sometimes the smallest features create the biggest emotional shifts
-
-#FeatureShip #StartupLife`],
+#ProductUpdate #IndieHacking`],
                 reddit: {
                     title: 'Small UI update, massive impact: Why user avatars changed everything',
                     content: `r/microsaas - quick update!<br><br>
@@ -713,23 +681,7 @@ Turns out we were making 12 database calls when we only needed 2. Classic N+1 pr
 
 Performance optimization: where 1 hour of work saves users thousands of hours
 
-#Performance #BackendDev`,
-
-`Performance win: 800ms → 120ms API response time! ⚡
-
-The fix? Classic N+1 query optimization. Sometimes the biggest improvements come from the most basic optimizations
-
-User experience > fancy features, always
-
-#Performance #WebDev`,
-
-`Just optimized our API and users are FLYING through the app now 🚀
-
-85% faster response times by eliminating redundant database calls. The difference is night and day
-
-Performance is a feature, not an afterthought
-
-#Optimization #UserExperience`],
+#Performance #BackendDev`],
                 reddit: {
                     title: 'Performance optimization that saved our startup: 800ms → 120ms',
                     content: `Fellow builders - sharing a quick win that made a huge difference.<br><br>
@@ -760,48 +712,32 @@ What performance optimizations made the biggest impact for your product?`
             }
         };
 
-        // Simple typewriter effect function
-        function typeWriter(element, text, speed = 30, isReddit = false) {
+        // Revamped typewriter that handles ONLY plain text (no HTML parsing)
+        function typeWriter(element, text, speed = 30) {
             return new Promise((resolve) => {
                 element.innerHTML = '';
                 let i = 0;
-                
-                function typeChar() {
+
+                function type() {
                     if (i < text.length) {
-                        if (text.charAt(i) === '\n') {
+                        const char = text.charAt(i);
+                        if (char === '\n') {
                             element.innerHTML += '<br>';
-                            i++;
-                        } else if (isReddit && text.substr(i, 2) === '**') {
-                            // Handle Reddit bold text
-                            let boldEnd = text.indexOf('**', i + 2);
-                            if (boldEnd !== -1) {
-                                const boldText = text.substring(i + 2, boldEnd);
-                                element.innerHTML += `<strong>${boldText}</strong>`;
-                                i = boldEnd + 2;
-                            } else {
-                                element.innerHTML += text.charAt(i);
-                                i++;
-                            }
-                        } else if (!isReddit && text.charAt(i) === '#' && (i === 0 || text.charAt(i-1) === ' ' || text.charAt(i-1) === '\n')) {
-                            // Handle hashtags - find the end of the hashtag
-                            let hashtagEnd = i + 1;
-                            while (hashtagEnd < text.length && text.charAt(hashtagEnd).match(/[a-zA-Z0-9]/)) {
-                                hashtagEnd++;
-                            }
-                            const hashtag = text.substring(i, hashtagEnd);
-                            element.innerHTML += `<span class="tweet-hashtags">${hashtag}</span>`;
-                            i = hashtagEnd;
                         } else {
-                            element.innerHTML += text.charAt(i);
-                            i++;
+                            // Escape HTML special characters
+                            const safeChar = char
+                                .replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;');
+                            element.innerHTML += safeChar;
                         }
-                        setTimeout(typeChar, speed);
+                        i++;
+                        setTimeout(type, speed);
                     } else {
                         resolve();
                     }
                 }
-                
-                typeChar();
+                type();
             });
         }
 
@@ -864,10 +800,10 @@ What performance optimizations made the biggest impact for your product?`
                     redditTitleElement.textContent = '';
                     redditContentElement.innerHTML = '';
                     
-                    await typeWriter(redditTitleElement, content.reddit.title, 20, false);
+                    await typeWriter(redditTitleElement, content.reddit.title, 20);
                     redditTitleElement.classList.remove('typing');
                     
-                    await typeWriter(redditContentElement, content.reddit.content, 15, true);
+                    await typeWriter(redditContentElement, content.reddit.content, 15);
                     redditContentElement.classList.remove('typing');
                     
                     // Wait 0.5s then show final metrics
