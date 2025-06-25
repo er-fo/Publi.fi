@@ -168,7 +168,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            color: #667eea;
+            color: #475569;
             animation: pulse 2s infinite;
         }
         
@@ -199,8 +199,8 @@
         }
         
         .social-tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #1e293b;
+            border-bottom-color: #1e293b;
         }
         
         .social-content {
@@ -313,10 +313,11 @@
         }
         
         .discount-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 25px;
-            padding: 0.5rem 1.5rem;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
             display: inline-block;
             margin-bottom: 2rem;
             font-weight: 600;
@@ -333,15 +334,17 @@
         .waitlist-form input {
             flex: 1;
             padding: 1rem 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s ease;
+            background: #f8fafc;
         }
         
         .waitlist-form input:focus {
-            border-color: #667eea;
+            border-color: #1e293b;
+            background: white;
         }
         
         .waitlist-form input::placeholder {
@@ -349,21 +352,21 @@
         }
         
         .waitlist-form button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1e293b;
             color: white;
             padding: 1rem 2rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
         }
         
         .waitlist-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #0f172a;
+            transform: translateY(-1px);
         }
         
         .success-message {
