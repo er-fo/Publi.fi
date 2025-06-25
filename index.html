@@ -761,36 +761,70 @@ What performance optimizations made the biggest impact for your product?`
         };
 
         // Typewriter effect function
-        function typeWriter(element, text, speed = 30) {
+        function typeWriter(element, htmlText, speed = 30) {
             return new Promise((resolve) => {
-                element.innerHTML = '';
-                let i = 0;
+                // Parse HTML into segments (text and tags)
+                const segments = [];
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlText;
                 
-                function type() {
-                    if (i < text.length) {
-                        if (text.substr(i, 4) === '<br>') {
-                            element.innerHTML += '<br>';
-                            i += 4;
-                        } else if (text.charAt(i) === '<') {
-                            // Handle HTML tags
-                            let tagEnd = text.indexOf('>', i);
-                            if (tagEnd !== -1) {
-                                element.innerHTML += text.substring(i, tagEnd + 1);
-                                i = tagEnd + 1;
-                            } else {
-                                element.innerHTML += text.charAt(i);
-                                i++;
-                            }
-                        } else {
-                            element.innerHTML += text.charAt(i);
-                            i++;
+                function parseNode(node) {
+                    if (node.nodeType === 3) { // Text node
+                        const text = node.textContent;
+                        for (let i = 0; i < text.length; i++) {
+                            segments.push({ type: 'char', content: text[i] });
                         }
-                        setTimeout(type, speed);
+                    } else if (node.nodeType === 1) { // Element node
+                        if (node.tagName === 'BR') {
+                            segments.push({ type: 'tag', content: '<br>' });
+                        } else if (node.tagName === 'SPAN') {
+                            segments.push({ type: 'tag', content: `<span class="${node.className}">` });
+                            for (let child of node.childNodes) {
+                                parseNode(child);
+                            }
+                            segments.push({ type: 'tag', content: '</span>' });
+                        } else if (node.tagName === 'STRONG') {
+                            segments.push({ type: 'tag', content: '<strong>' });
+                            for (let child of node.childNodes) {
+                                parseNode(child);
+                            }
+                            segments.push({ type: 'tag', content: '</strong>' });
+                        } else {
+                            // For any other tags, just process children
+                            for (let child of node.childNodes) {
+                                parseNode(child);
+                            }
+                        }
+                    }
+                }
+                
+                for (let child of tempDiv.childNodes) {
+                    parseNode(child);
+                }
+                
+                // Clear element and start typing
+                element.innerHTML = '';
+                let currentIndex = 0;
+                
+                function typeNext() {
+                    if (currentIndex < segments.length) {
+                        const segment = segments[currentIndex];
+                        
+                        if (segment.type === 'char') {
+                            element.innerHTML += segment.content;
+                            currentIndex++;
+                            setTimeout(typeNext, speed);
+                        } else if (segment.type === 'tag') {
+                            element.innerHTML += segment.content;
+                            currentIndex++;
+                            setTimeout(typeNext, 0); // Tags appear instantly
+                        }
                     } else {
                         resolve();
                     }
                 }
-                type();
+                
+                typeNext();
             });
         }
 
