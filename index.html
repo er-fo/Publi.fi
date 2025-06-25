@@ -10,7 +10,7 @@
     <meta http-equiv="Expires" content="0">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -21,45 +21,300 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            background: white;
+            color: #1e293b;
+            line-height: 1.6;
         }
         
-        .container {
+        .header {
             text-align: center;
-            max-width: 600px;
-            padding: 2rem;
+            padding: 3rem 2rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .logo {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            color: white;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .tagline {
             font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            line-height: 1.5;
+            margin-bottom: 1rem;
+            color: #475569;
         }
         
         .problem {
             font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.8;
+            margin-bottom: 2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+        
+        .demo-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .demo-header {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            color: #334155;
+        }
+        
+        .demo-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            align-items: start;
+        }
+        
+        .github-section {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: #f0f6fc;
+        }
+        
+        .github-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .github-icon {
+            width: 16px;
+            height: 16px;
+            fill: #f0f6fc;
+        }
+        
+        .commit-item {
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+        
+        .commit-item.active {
+            border-color: #238636;
+            opacity: 1;
+            background: rgba(35, 134, 54, 0.1);
+        }
+        
+        .commit-item:hover {
+            border-color: #656d76;
+            opacity: 1;
+        }
+        
+        .commit-hash {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #7c3aed;
+            margin-bottom: 0.25rem;
+        }
+        
+        .commit-message {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #f0f6fc;
+        }
+        
+        .commit-details {
+            font-size: 0.75rem;
+            color: #8b949e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-changes {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .additions {
+            color: #238636;
+        }
+        
+        .deletions {
+            color: #da3633;
+        }
+        
+        .transform-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .social-section {
+            min-height: 400px;
+        }
+        
+        .social-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        
+        .social-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+        
+        .social-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .social-content {
+            display: none;
+        }
+        
+        .social-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tweet-preview {
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 1rem;
+            background: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tweet-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .tweet-meta {
+            flex: 1;
+        }
+        
+        .tweet-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .tweet-handle {
+            color: #536471;
+            font-size: 0.8rem;
+        }
+        
+        .tweet-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tweet-hashtags {
+            color: #1d9bf0;
+        }
+        
+        .tweet-metrics {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #536471;
+        }
+        
+        .reddit-preview {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .reddit-header {
+            background: #f6f7f8;
+            padding: 0.75rem;
+            border-bottom: 1px solid #edeff1;
+            font-size: 0.8rem;
+            color: #878a8c;
+        }
+        
+        .reddit-title {
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-bottom: 1px solid #edeff1;
+        }
+        
+        .reddit-content {
+            padding: 1rem;
+            font-size: 0.9rem;
             line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .waitlist-section {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .discount-badge {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border-radius: 25px;
             padding: 0.5rem 1.5rem;
             display: inline-block;
@@ -78,20 +333,23 @@
         .waitlist-form input {
             flex: 1;
             padding: 1rem 1.5rem;
-            border: none;
+            border: 2px solid #e2e8f0;
             border-radius: 50px;
             font-size: 1rem;
             outline: none;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
+            transition: border-color 0.2s ease;
+        }
+        
+        .waitlist-form input:focus {
+            border-color: #667eea;
         }
         
         .waitlist-form input::placeholder {
-            color: #666;
+            color: #94a3b8;
         }
         
         .waitlist-form button {
-            background: #1e293b;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -104,8 +362,8 @@
         }
         
         .waitlist-form button:hover {
-            background: #0f172a;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
         
         .success-message {
@@ -120,14 +378,48 @@
         
         .footer-note {
             font-size: 0.9rem;
-            opacity: 0.7;
+            color: #64748b;
             margin-top: 2rem;
+        }
+        
+        .ai-thinking {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .ai-thinking.active {
+            display: block;
+        }
+        
+        .dots {
+            display: inline-block;
+            animation: thinking 1.5s infinite;
+        }
+        
+        @keyframes thinking {
+            0%, 20% { opacity: 0; }
+            50% { opacity: 1; }
+            80%, 100% { opacity: 0; }
+        }
+        
+        .metrics-hint {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            color: #0369a1;
+            margin-top: 1rem;
+            text-align: center;
         }
         
         /* Mobile responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
+            .header {
+                padding: 2rem 1rem 1rem;
             }
             
             .logo {
@@ -142,6 +434,16 @@
                 font-size: 1rem;
             }
             
+            .demo-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .transform-arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+            
             .waitlist-form {
                 flex-direction: column;
                 max-width: 300px;
@@ -154,11 +456,135 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1 class="logo">Publify</h1>
         <p class="tagline">Transform your GitHub activity into engaging social media content</p>
         <p class="problem">Stop staring at blank tweet composers. Let AI turn your real development work into authentic posts for Twitter and Reddit.</p>
-        
+    </div>
+
+    <div class="demo-container">
+        <div class="demo-box">
+            <div class="demo-header">
+                ✨ See Publify in action: From commit to content in seconds
+            </div>
+            <div class="demo-content">
+                <div class="github-section">
+                    <div class="github-header">
+                        <svg class="github-icon" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        Recent commits • your-repo
+                    </div>
+                    
+                    <div class="commit-item active" data-commit="bug-fix">
+                        <div class="commit-hash">a7b3f21</div>
+                        <div class="commit-message">Fix JWT token refresh timeout bug</div>
+                        <div class="commit-details">
+                            <span>src/auth/tokenManager.ts</span>
+                            <span class="file-changes"><span class="additions">+1</span> <span class="deletions">-1</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="commit-item" data-commit="feature">
+                        <div class="commit-hash">c9d2e45</div>
+                        <div class="commit-message">Add user avatar support with Gravatar fallback</div>
+                        <div class="commit-details">
+                            <span>src/components/UserProfile.tsx</span>
+                            <span class="file-changes"><span class="additions">+23</span> <span class="deletions">-8</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="commit-item" data-commit="performance">
+                        <div class="commit-hash">f1a8b67</div>
+                        <div class="commit-message">Optimize API calls, reduce N+1 queries</div>
+                        <div class="commit-details">
+                            <span>backend/routes/api.js</span>
+                            <span class="file-changes"><span class="additions">+15</span> <span class="deletions">-42</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transform-arrow">
+                    ✨→
+                </div>
+                
+                <div class="social-section">
+                    <div class="ai-thinking" id="ai-thinking">
+                        AI crafting content<span class="dots">...</span>
+                    </div>
+                    
+                    <div class="social-tabs">
+                        <button class="social-tab active" data-tab="twitter">Twitter</button>
+                        <button class="social-tab" data-tab="reddit">Reddit</button>
+                    </div>
+                    
+                    <div class="social-content active" id="twitter-content">
+                        <div class="tweet-preview" id="tweet-preview">
+                            <div class="tweet-header">
+                                <div class="tweet-avatar">JD</div>
+                                <div class="tweet-meta">
+                                    <div class="tweet-name">John Developer</div>
+                                    <div class="tweet-handle">@johnbuilds • 3h</div>
+                                </div>
+                            </div>
+                            <div class="tweet-text" id="tweet-text">
+                                🐛 Fixed that annoying login timeout bug that was driving users crazy<br><br>
+                                The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. One line change, hours of debugging 😅<br><br>
+                                Sometimes the smallest bugs teach you the most about your system<br><br>
+                                <span class="tweet-hashtags">#BugFix #WebDev</span>
+                            </div>
+                            <div class="tweet-metrics">
+                                <span>💬 12</span>
+                                <span>🔄 8</span>
+                                <span>❤️ 34</span>
+                            </div>
+                        </div>
+                        <div class="metrics-hint">
+                            📈 Predicted 2.3x higher engagement than your recent posts
+                        </div>
+                    </div>
+                    
+                    <div class="social-content" id="reddit-content">
+                        <div class="reddit-preview">
+                            <div class="reddit-header">
+                                Posted in r/microsaas • 2 hours ago
+                            </div>
+                            <div class="reddit-title" id="reddit-title">
+                                Week 8 building in public: The commit that taught me everything about user behavior
+                            </div>
+                            <div class="reddit-content" id="reddit-text">
+                                Hey r/microsaas!<br><br>
+
+                                Back with another weekly update from the trenches. This week I shipped something tiny that completely changed how I think about product development.<br><br>
+
+                                <strong>The Context:</strong><br>
+                                I've been working on an authentication service for indie developers. Nothing revolutionary - just solving a pain point I had myself.<br><br>
+
+                                <strong>The "Small" Commit:</strong><br>
+                                Fixed a JWT token refresh bug that was causing timeouts. Took 2 hours to debug, 1 line to fix.<br><br>
+
+                                <strong>What Happened Next:</strong><br>
+                                - Support tickets dropped 80% overnight<br>
+                                - User retention improved significantly<br>
+                                - Realized users were silently churning due to this "small" bug<br><br>
+
+                                <strong>The Lesson:</strong><br>
+                                Sometimes the least exciting commits have the biggest impact. That flashy new feature? 12% adoption. This invisible bug fix? Changed everything.<br><br>
+
+                                Always building,<br>
+                                u/johnbuilds
+                            </div>
+                        </div>
+                        <div class="metrics-hint">
+                            🎯 Optimized for r/microsaas community guidelines and engagement patterns
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="waitlist-section">
         <div class="discount-badge">🎉 Early Access: 30% Lifetime Discount</div>
         
         <form id="waitlist-form" class="waitlist-form">
@@ -172,10 +598,165 @@
         </div>
         
         <p class="footer-note">For indie developers who want to build in public, effortlessly</p>
-        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">v2.5 - Fixed duplicate entries</p>
     </div>
 
     <script>
+        // Demo interaction data
+        const demoContent = {
+            'bug-fix': {
+                twitter: `🐛 Fixed that annoying login timeout bug that was driving users crazy
+
+The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. One line change, hours of debugging 😅
+
+Sometimes the smallest bugs teach you the most about your system
+
+<span class="tweet-hashtags">#BugFix #WebDev</span>`,
+                reddit: {
+                    title: 'Week 8 building in public: The commit that taught me everything about user behavior',
+                    content: `Hey r/microsaas!<br><br>
+
+Back with another weekly update from the trenches. This week I shipped something tiny that completely changed how I think about product development.<br><br>
+
+<strong>The Context:</strong><br>
+I've been working on an authentication service for indie developers. Nothing revolutionary - just solving a pain point I had myself.<br><br>
+
+<strong>The "Small" Commit:</strong><br>
+Fixed a JWT token refresh bug that was causing timeouts. Took 2 hours to debug, 1 line to fix.<br><br>
+
+<strong>What Happened Next:</strong><br>
+- Support tickets dropped 80% overnight<br>
+- User retention improved significantly<br>
+- Realized users were silently churning due to this "small" bug<br><br>
+
+<strong>The Lesson:</strong><br>
+Sometimes the least exciting commits have the biggest impact. That flashy new feature? 12% adoption. This invisible bug fix? Changed everything.<br><br>
+
+Always building,<br>
+u/johnbuilds`
+                }
+            },
+            'feature': {
+                twitter: `✨ Just shipped user avatars to our SaaS!
+
+Nothing fancy - just Gravatar integration + fallback to initials. But it's amazing how much more "real" the app feels now
+
+The little details make all the difference 🎨
+
+<span class="tweet-hashtags">#ProductUpdate #IndieHacking</span>`,
+                reddit: {
+                    title: 'Small UI update, massive impact: Why user avatars changed everything',
+                    content: `r/microsaas - quick update!<br><br>
+
+Just pushed user avatars to production. Took maybe 3 hours to implement, but the feedback has been incredible.<br><br>
+
+<strong>What I built:</strong><br>
+- Gravatar integration for existing emails<br>
+- Fallback to colorful initials for new users<br>
+- Consistent 40px circles throughout the UI<br><br>
+
+<strong>Why it matters:</strong><br>
+Users said the app felt "more personal" and "professional" immediately. Something about seeing faces (or initials) makes digital interactions feel more human.<br><br>
+
+<strong>The data:</strong><br>
+- Session time up 15%<br>
+- More profile completions<br>
+- Overall app "warmth" improved<br><br>
+
+Sometimes the smallest features have the biggest emotional impact.<br><br>
+
+What tiny UI changes made a big difference for your product?`
+                }
+            },
+            'performance': {
+                twitter: `⚡ Cut our API response time from 800ms to 120ms
+
+Turns out we were making 12 database calls when we only needed 2. Classic N+1 problem 🤦‍♂️
+
+Performance optimization: where 1 hour of work saves users thousands of hours
+
+<span class="tweet-hashtags">#Performance #BackendDev</span>`,
+                reddit: {
+                    title: 'Performance optimization that saved our startup: 800ms → 120ms',
+                    content: `Fellow builders - sharing a quick win that made a huge difference.<br><br>
+
+<strong>The Problem:</strong><br>
+Our API was getting slower as we grew. 800ms average response time. Users were getting frustrated, conversion dropping.<br><br>
+
+<strong>The Investigation:</strong><br>
+Fired up the profiler and found the classic N+1 query problem. We were fetching user data, then making separate calls for each user's projects, then separate calls for each project's stats.<br><br>
+
+<strong>The Fix:</strong><br>
+One afternoon of SQL optimization. Combined 12 queries into 2 with proper JOINs.<br><br>
+
+<strong>The Result:</strong><br>
+- 800ms → 120ms average response time<br>
+- 35% improvement in user satisfaction scores<br>
+- Conversion rate back to normal levels<br><br>
+
+<strong>Lesson learned:</strong><br>
+Performance isn't just about speed - it's about user trust. Every 100ms delay costs real money.<br><br>
+
+What performance optimizations made the biggest impact for your product?`
+                }
+            }
+        };
+
+        // Demo functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const commitItems = document.querySelectorAll('.commit-item');
+            const socialTabs = document.querySelectorAll('.social-tab');
+            const socialContents = document.querySelectorAll('.social-content');
+            const aiThinking = document.getElementById('ai-thinking');
+            
+            // Commit selection
+            commitItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all commits
+                    commitItems.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show AI thinking
+                    aiThinking.classList.add('active');
+                    
+                    // Hide social content temporarily
+                    socialContents.forEach(content => {
+                        content.style.opacity = '0.3';
+                    });
+                    
+                    // Update content after delay
+                    setTimeout(() => {
+                        updateSocialContent(this.dataset.commit);
+                        aiThinking.classList.remove('active');
+                        socialContents.forEach(content => {
+                            content.style.opacity = '1';
+                        });
+                    }, 1500);
+                });
+            });
+            
+            // Social tab switching
+            socialTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    socialTabs.forEach(t => t.classList.remove('active'));
+                    socialContents.forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab + '-content').classList.add('active');
+                });
+            });
+            
+            function updateSocialContent(commitType) {
+                const content = demoContent[commitType];
+                
+                // Update Twitter content
+                document.getElementById('tweet-text').innerHTML = content.twitter;
+                
+                // Update Reddit content
+                document.getElementById('reddit-title').textContent = content.reddit.title;
+                document.getElementById('reddit-text').innerHTML = content.reddit.content;
+            }
+        });
+
         // Check for referral code in URL and display message
         function checkReferralCode() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -185,18 +766,18 @@
                 document.getElementById('referral_code').value = refCode;
                 
                 // Show referral message
-                const container = document.querySelector('.container');
+                const waitlistSection = document.querySelector('.waitlist-section');
                 const referralBanner = document.createElement('div');
                 referralBanner.style.cssText = `
-                    background: rgba(255, 255, 255, 0.2);
-                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                    color: white;
                     border-radius: 10px;
                     padding: 1rem;
                     margin-bottom: 2rem;
                     font-weight: 500;
                 `;
                 referralBanner.innerHTML = `🎉 You've been invited! Code: <strong>${refCode}</strong> - You'll get early access!`;
-                container.insertBefore(referralBanner, container.children[3]); // Insert after problem text
+                waitlistSection.insertBefore(referralBanner, waitlistSection.children[0]);
             }
         }
         
