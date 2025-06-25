@@ -715,21 +715,16 @@ What performance optimizations made the biggest impact for your product?`
         // Revamped typewriter that handles ONLY plain text (no HTML parsing)
         function typeWriter(element, text, speed = 30) {
             return new Promise((resolve) => {
-                element.innerHTML = '';
+                element.textContent = '';
                 let i = 0;
 
                 function type() {
                     if (i < text.length) {
                         const char = text.charAt(i);
                         if (char === '\n') {
-                            element.innerHTML += '<br>';
+                            element.textContent += '<br>';
                         } else {
-                            // Escape HTML special characters
-                            const safeChar = char
-                                .replace(/&/g, '&amp;')
-                                .replace(/</g, '&lt;')
-                                .replace(/>/g, '&gt;');
-                            element.innerHTML += safeChar;
+                            element.textContent += char;
                         }
                         i++;
                         setTimeout(type, speed);
@@ -798,7 +793,7 @@ What performance optimizations made the biggest impact for your product?`
                     redditContentElement.classList.add('typing');
                     
                     redditTitleElement.textContent = '';
-                    redditContentElement.innerHTML = '';
+                    redditContentElement.textContent = '';
                     
                     await typeWriter(redditTitleElement, content.reddit.title, 20);
                     redditTitleElement.classList.remove('typing');
@@ -831,11 +826,11 @@ What performance optimizations made the biggest impact for your product?`
                 const content = demoContent[commitType];
                 
                 // Update Twitter content
-                document.getElementById('tweet-text').innerHTML = content.twitter;
+                document.getElementById('tweet-text').textContent = content.twitter;
                 
                 // Update Reddit content
                 document.getElementById('reddit-title').textContent = content.reddit.title;
-                document.getElementById('reddit-text').innerHTML = content.reddit.content;
+                document.getElementById('reddit-text').textContent = content.reddit.content;
             }
         });
 
@@ -858,7 +853,7 @@ What performance optimizations made the biggest impact for your product?`
                     margin-bottom: 2rem;
                     font-weight: 500;
                 `;
-                referralBanner.innerHTML = `🎉 You've been invited! Code: <strong>${refCode}</strong> - You'll get early access!`;
+                referralBanner.textContent = `🎉 You've been invited! Code: <strong>${refCode}</strong> - You'll get early access!`;
                 waitlistSection.insertBefore(referralBanner, waitlistSection.children[0]);
             }
         }
