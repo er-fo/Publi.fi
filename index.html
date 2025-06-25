@@ -262,6 +262,8 @@
             font-size: 0.95rem;
             line-height: 1.4;
             margin-bottom: 0.75rem;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
         
         .tweet-hashtags {
@@ -717,22 +719,14 @@ What performance optimizations made the biggest impact for your product?`
             return new Promise((resolve) => {
                 element.textContent = '';
                 let i = 0;
-
-                function type() {
-                    if (i < text.length) {
-                        const char = text.charAt(i);
-                        if (char === '\n') {
-                            element.textContent += '<br>';
-                        } else {
-                            element.textContent += char;
-                        }
-                        i++;
-                        setTimeout(type, speed);
-                    } else {
+                const interval = setInterval(() => {
+                    i++;
+                    element.textContent = text.slice(0, i);
+                    if (i >= text.length) {
+                        clearInterval(interval);
                         resolve();
                     }
-                }
-                type();
+                }, speed);
             });
         }
 
