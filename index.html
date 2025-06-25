@@ -541,13 +541,13 @@
                                 Sometimes the smallest bugs teach you the most about your system<br><br>
                                 <span class="tweet-hashtags">#BugFix #WebDev</span>
                             </div>
-                            <div class="tweet-metrics">
+                            <div class="tweet-metrics" id="tweet-metrics">
                                 <span>💬 12</span>
                                 <span>🔄 8</span>
                                 <span>❤️ 34</span>
                             </div>
                         </div>
-                        <div class="metrics-hint">
+                        <div class="metrics-hint" id="metrics-hint">
                             📈 Predicted 2.3x higher engagement than your recent posts
                         </div>
                     </div>
@@ -603,6 +603,10 @@ The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. O
 Sometimes the smallest bugs teach you the most about your system
 
 <span class="tweet-hashtags">#BugFix #WebDev</span>`,
+                twitterMetrics: {
+                    engagement: ['💬 18', '🔄 12', '❤️ 45'],
+                    prediction: '📊 Predicted 2.8x higher engagement (bug fix posts perform well)'
+                },
                 reddit: {
                     title: 'Week 8 building in public: The commit that taught me everything about user behavior',
                     content: `Hey r/microsaas!<br><br>
@@ -635,6 +639,10 @@ Nothing fancy - just Gravatar integration + fallback to initials. But it's amazi
 The little details make all the difference 🎨
 
 <span class="tweet-hashtags">#ProductUpdate #IndieHacking</span>`,
+                twitterMetrics: {
+                    engagement: ['💬 24', '🔄 15', '❤️ 67'],
+                    prediction: '🚀 Predicted 3.2x higher engagement (product updates get great traction)'
+                },
                 reddit: {
                     title: 'Small UI update, massive impact: Why user avatars changed everything',
                     content: `r/microsaas - quick update!<br><br>
@@ -667,6 +675,10 @@ Turns out we were making 12 database calls when we only needed 2. Classic N+1 pr
 Performance optimization: where 1 hour of work saves users thousands of hours
 
 <span class="tweet-hashtags">#Performance #BackendDev</span>`,
+                twitterMetrics: {
+                    engagement: ['💬 31', '🔄 22', '❤️ 89'],
+                    prediction: '⚡ Predicted 4.1x higher engagement (performance wins resonate strongly)'
+                },
                 reddit: {
                     title: 'Performance optimization that saved our startup: 800ms → 120ms',
                     content: `Fellow builders - sharing a quick win that made a huge difference.<br><br>
@@ -762,9 +774,25 @@ What performance optimizations made the biggest impact for your product?`
                 
                 if (activeTab === 'twitter') {
                     const tweetElement = document.getElementById('tweet-text');
+                    const metricsElement = document.getElementById('tweet-metrics');
+                    const hintElement = document.getElementById('metrics-hint');
+                    
+                    // Show calculating state
+                    hintElement.innerHTML = '🔄 Calculating predicted performance...';
+                    hintElement.style.opacity = '0.7';
+                    
                     tweetElement.classList.add('typing');
                     await typeWriter(tweetElement, content.twitter, 25);
                     tweetElement.classList.remove('typing');
+                    
+                    // Update metrics immediately after typing
+                    metricsElement.innerHTML = content.twitterMetrics.engagement.map(metric => `<span>${metric}</span>`).join('');
+                    
+                    // Wait 500ms then show prediction
+                    setTimeout(() => {
+                        hintElement.innerHTML = content.twitterMetrics.prediction;
+                        hintElement.style.opacity = '1';
+                    }, 500);
                 } else {
                     const redditTitleElement = document.getElementById('reddit-title');
                     const redditContentElement = document.getElementById('reddit-text');
@@ -788,6 +816,8 @@ What performance optimizations made the biggest impact for your product?`
                 
                 // Update Twitter content
                 document.getElementById('tweet-text').innerHTML = content.twitter;
+                document.getElementById('tweet-metrics').innerHTML = content.twitterMetrics.engagement.map(metric => `<span>${metric}</span>`).join('');
+                document.getElementById('metrics-hint').innerHTML = content.twitterMetrics.prediction;
                 
                 // Update Reddit content
                 document.getElementById('reddit-title').textContent = content.reddit.title;
