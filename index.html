@@ -410,6 +410,13 @@
             color: #0369a1;
             margin-top: 1rem;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metrics-hint.calculating {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #64748b;
         }
         
         /* Mobile responsive */
@@ -541,13 +548,13 @@
                                 Sometimes the smallest bugs teach you the most about your system<br><br>
                                 <span class="tweet-hashtags">#BugFix #WebDev</span>
                             </div>
-                            <div class="tweet-metrics" id="tweet-metrics">
+                            <div class="tweet-metrics">
                                 <span>💬 12</span>
                                 <span>🔄 8</span>
                                 <span>❤️ 34</span>
                             </div>
                         </div>
-                        <div class="metrics-hint" id="metrics-hint">
+                        <div class="metrics-hint" id="twitter-metrics">
                             📈 Predicted 2.3x higher engagement than your recent posts
                         </div>
                     </div>
@@ -583,7 +590,7 @@
                                 u/johnbuilds
                             </div>
                         </div>
-                        <div class="metrics-hint">
+                        <div class="metrics-hint" id="reddit-metrics">
                             🎯 Optimized for r/microsaas community guidelines and engagement patterns
                         </div>
                     </div>
@@ -596,17 +603,29 @@
         // Demo interaction data
         const demoContent = {
             'bug-fix': {
-                twitter: `🐛 Fixed that annoying login timeout bug that was driving users crazy
+                twitter: [`🐛 Fixed that annoying login timeout bug that was driving users crazy
 
 The issue was in our JWT refresh logic - tokens were expiring 2 minutes early. One line change, hours of debugging 😅
 
 Sometimes the smallest bugs teach you the most about your system
 
 <span class="tweet-hashtags">#BugFix #WebDev</span>`,
-                twitterMetrics: {
-                    engagement: ['💬 18', '🔄 12', '❤️ 45'],
-                    prediction: '📊 Predicted 2.8x higher engagement'
-                },
+
+`🔧 Just squashed a critical auth bug
+
+Users were getting logged out randomly every 28 minutes. Turns out our JWT expiry calculation was off by 120 seconds
+
+2 hours of debugging, 1 character fix. Classic developer life 😤
+
+<span class="tweet-hashtags">#AuthFix #DebuggingLife</span>`,
+
+`Bug hunting success! 🎯
+
+Fixed the session timeout issue that's been haunting our users. The culprit? A premature token refresh causing silent logouts
+
+Sometimes the most invisible bugs cause the biggest user pain
+
+<span class="tweet-hashtags">#BugFix #UX</span>`],
                 reddit: {
                     title: 'Week 8 building in public: The commit that taught me everything about user behavior',
                     content: `Hey r/microsaas!<br><br>
@@ -629,20 +648,36 @@ Sometimes the least exciting commits have the biggest impact. That flashy new fe
 
 Always building,<br>
 u/johnbuilds`
+                },
+                metrics: {
+                    twitter: '🐛 High resonance expected - debugging stories perform 3.1x better than feature posts',
+                    reddit: '🎯 Strong community fit - technical problem-solving posts average 89% upvote ratio in r/microsaas'
                 }
             },
             'feature': {
-                twitter: `✨ Just shipped user avatars to our SaaS!
+                twitter: [`✨ Just shipped user avatars to our SaaS!
 
 Nothing fancy - just Gravatar integration + fallback to initials. But it's amazing how much more "real" the app feels now
 
 The little details make all the difference 🎨
 
 <span class="tweet-hashtags">#ProductUpdate #IndieHacking</span>`,
-                twitterMetrics: {
-                    engagement: ['💬 24', '🔄 15', '❤️ 67'],
-                    prediction: '🚀 Predicted 3.2x higher engagement'
-                },
+
+`New feature alert: User avatars! 👤
+
+Small change, huge impact. Our app went from feeling like a spreadsheet to feeling like a community overnight
+
+Amazing how 40px circles can transform an entire UX
+
+<span class="tweet-hashtags">#UI #ProductDevelopment</span>`,
+
+`Shipped: Profile avatars with Gravatar integration ✨
+
+3 hours of dev work, immediate user feedback: "This feels so much more professional now"
+
+Sometimes the smallest features create the biggest emotional shifts
+
+<span class="tweet-hashtags">#FeatureShip #StartupLife</span>`],
                 reddit: {
                     title: 'Small UI update, massive impact: Why user avatars changed everything',
                     content: `r/microsaas - quick update!<br><br>
@@ -665,20 +700,36 @@ Users said the app felt "more personal" and "professional" immediately. Somethin
 Sometimes the smallest features have the biggest emotional impact.<br><br>
 
 What tiny UI changes made a big difference for your product?`
+                },
+                metrics: {
+                    twitter: '✨ Strong engagement potential - feature announcements with UX insights get 2.7x more shares',
+                    reddit: '📈 Excellent match - UI improvement stories consistently trend in r/microsaas'
                 }
             },
             'performance': {
-                twitter: `⚡ Cut our API response time from 800ms to 120ms
+                twitter: [`⚡ Cut our API response time from 800ms to 120ms
 
 Turns out we were making 12 database calls when we only needed 2. Classic N+1 problem 🤦‍♂️
 
 Performance optimization: where 1 hour of work saves users thousands of hours
 
 <span class="tweet-hashtags">#Performance #BackendDev</span>`,
-                twitterMetrics: {
-                    engagement: ['💬 31', '🔄 22', '❤️ 89'],
-                    prediction: '⚡ Predicted 4.1x higher engagement'
-                },
+
+`Performance win: 800ms → 120ms API response time! ⚡
+
+The fix? Classic N+1 query optimization. Sometimes the biggest improvements come from the most basic optimizations
+
+User experience > fancy features, always
+
+<span class="tweet-hashtags">#Performance #WebDev</span>`,
+
+`Just optimized our API and users are FLYING through the app now 🚀
+
+85% faster response times by eliminating redundant database calls. The difference is night and day
+
+Performance is a feature, not an afterthought
+
+<span class="tweet-hashtags">#Optimization #UserExperience</span>`],
                 reddit: {
                     title: 'Performance optimization that saved our startup: 800ms → 120ms',
                     content: `Fellow builders - sharing a quick win that made a huge difference.<br><br>
@@ -701,6 +752,10 @@ One afternoon of SQL optimization. Combined 12 queries into 2 with proper JOINs.
 Performance isn't just about speed - it's about user trust. Every 100ms delay costs real money.<br><br>
 
 What performance optimizations made the biggest impact for your product?`
+                },
+                metrics: {
+                    twitter: '⚡ Tech content goldmine - performance optimization posts get 4.2x more developer engagement',
+                    reddit: '🎯 Perfect fit - technical deep-dives with real metrics consistently top r/microsaas weekly'
                 }
             }
         };
@@ -710,30 +765,26 @@ What performance optimizations made the biggest impact for your product?`
             return new Promise((resolve) => {
                 element.innerHTML = '';
                 let i = 0;
-                const cleanText = text.replace(/<br>/g, '\n').replace(/<[^>]*>/g, (match) => `|HTML|${match}|HTML|`);
-                let displayText = '';
                 
                 function type() {
-                    if (i < cleanText.length) {
-                        if (cleanText.substr(i, 6) === '|HTML|') {
-                            // Find the end of the HTML tag
-                            const endTag = cleanText.indexOf('|HTML|', i + 6);
-                            if (endTag !== -1) {
-                                const htmlTag = cleanText.substring(i + 6, endTag);
-                                displayText += htmlTag;
-                                i = endTag + 6;
+                    if (i < text.length) {
+                        if (text.substr(i, 4) === '<br>') {
+                            element.innerHTML += '<br>';
+                            i += 4;
+                        } else if (text.charAt(i) === '<') {
+                            // Handle HTML tags
+                            let tagEnd = text.indexOf('>', i);
+                            if (tagEnd !== -1) {
+                                element.innerHTML += text.substring(i, tagEnd + 1);
+                                i = tagEnd + 1;
                             } else {
-                                displayText += cleanText.charAt(i);
+                                element.innerHTML += text.charAt(i);
                                 i++;
                             }
-                        } else if (cleanText.charAt(i) === '\n') {
-                            displayText += '<br>';
-                            i++;
                         } else {
-                            displayText += cleanText.charAt(i);
+                            element.innerHTML += text.charAt(i);
                             i++;
                         }
-                        element.innerHTML = displayText;
                         setTimeout(type, speed);
                     } else {
                         resolve();
@@ -776,26 +827,21 @@ What performance optimizations made the biggest impact for your product?`
                 const content = demoContent[commitType];
                 const activeTab = document.querySelector('.social-tab.active').dataset.tab;
                 
+                // Show calculating state
+                showCalculatingMetrics(activeTab);
+                
                 if (activeTab === 'twitter') {
                     const tweetElement = document.getElementById('tweet-text');
-                    const metricsElement = document.getElementById('tweet-metrics');
-                    const hintElement = document.getElementById('metrics-hint');
-                    
-                    // Show calculating state
-                    hintElement.innerHTML = '🔄 Calculating predicted performance...';
-                    hintElement.style.opacity = '0.7';
-                    
                     tweetElement.classList.add('typing');
-                    await typeWriter(tweetElement, content.twitter, 25);
+                    
+                    // Pick random tweet variation
+                    const randomTweet = content.twitter[Math.floor(Math.random() * content.twitter.length)];
+                    await typeWriter(tweetElement, randomTweet, 25);
                     tweetElement.classList.remove('typing');
                     
-                    // Update metrics immediately after typing
-                    metricsElement.innerHTML = content.twitterMetrics.engagement.map(metric => `<span>${metric}</span>`).join('');
-                    
-                    // Wait 500ms then show prediction
+                    // Wait 0.5s then show final metrics
                     setTimeout(() => {
-                        hintElement.innerHTML = content.twitterMetrics.prediction;
-                        hintElement.style.opacity = '1';
+                        showFinalMetrics(commitType, activeTab);
                     }, 500);
                 } else {
                     const redditTitleElement = document.getElementById('reddit-title');
@@ -812,7 +858,26 @@ What performance optimizations made the biggest impact for your product?`
                     
                     await typeWriter(redditContentElement, content.reddit.content, 15);
                     redditContentElement.classList.remove('typing');
+                    
+                    // Wait 0.5s then show final metrics
+                    setTimeout(() => {
+                        showFinalMetrics(commitType, activeTab);
+                    }, 500);
                 }
+            }
+            
+            function showCalculatingMetrics(platform) {
+                const metricsElement = document.getElementById(`${platform}-metrics`);
+                metricsElement.className = 'metrics-hint calculating';
+                metricsElement.textContent = '🔄 Calculating predicted performance...';
+            }
+            
+            function showFinalMetrics(commitType, platform) {
+                const metricsElement = document.getElementById(`${platform}-metrics`);
+                const content = demoContent[commitType];
+                
+                metricsElement.className = 'metrics-hint';
+                metricsElement.textContent = content.metrics[platform];
             }
             
             function updateSocialContent(commitType) {
@@ -820,8 +885,6 @@ What performance optimizations made the biggest impact for your product?`
                 
                 // Update Twitter content
                 document.getElementById('tweet-text').innerHTML = content.twitter;
-                document.getElementById('tweet-metrics').innerHTML = content.twitterMetrics.engagement.map(metric => `<span>${metric}</span>`).join('');
-                document.getElementById('metrics-hint').innerHTML = content.twitterMetrics.prediction;
                 
                 // Update Reddit content
                 document.getElementById('reddit-title').textContent = content.reddit.title;
