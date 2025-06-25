@@ -745,7 +745,7 @@ What performance optimizations made the biggest impact for your product?`
                     const hintEl = document.getElementById('twitter-metrics-hint');
                     hintEl.textContent = 'Calculating predicted performance';
                     tweetElement.classList.add('typing');
-                    await typeWriter(tweetElement, content.twitter, 25);
+                    await typeWriter(tweetElement, content.twitter, 15);
                     tweetElement.classList.remove('typing');
                     setTimeout(() => {
                         hintEl.textContent = `📈 Predicted ${content.prediction} higher engagement than your recent posts`;
@@ -760,10 +760,10 @@ What performance optimizations made the biggest impact for your product?`
                     redditTitleElement.textContent = '';
                     redditContentElement.innerHTML = '';
                     
-                    await typeWriter(redditTitleElement, content.reddit.title, 20);
+                    await typeWriter(redditTitleElement, content.reddit.title, 12);
                     redditTitleElement.classList.remove('typing');
                     
-                    await typeWriter(redditContentElement, content.reddit.content, 15);
+                    await typeWriter(redditContentElement, content.reddit.content, 8);
                     redditContentElement.classList.remove('typing');
                 }
             }
