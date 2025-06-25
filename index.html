@@ -382,27 +382,20 @@
             margin-top: 2rem;
         }
         
-        .ai-thinking {
-            display: none;
-            text-align: center;
-            color: #667eea;
-            font-size: 0.9rem;
-            margin: 1rem 0;
-        }
-        
-        .ai-thinking.active {
-            display: block;
-        }
-        
-        .dots {
+        .typewriter-cursor {
             display: inline-block;
-            animation: thinking 1.5s infinite;
+            background-color: #667eea;
+            width: 2px;
+            animation: blink 1s infinite;
         }
         
-        @keyframes thinking {
-            0%, 20% { opacity: 0; }
-            50% { opacity: 1; }
-            80%, 100% { opacity: 0; }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .typing {
+            overflow: hidden;
         }
         
         .metrics-hint {
@@ -525,10 +518,6 @@
                 </div>
                 
                 <div class="social-section">
-                    <div class="ai-thinking" id="ai-thinking">
-                        AI crafting content<span class="dots">...</span>
-                    </div>
-                    
                     <div class="social-tabs">
                         <button class="social-tab active" data-tab="twitter">Twitter</button>
                         <button class="social-tab" data-tab="reddit">Reddit</button>
@@ -701,12 +690,45 @@ What performance optimizations made the biggest impact for your product?`
             }
         };
 
+        // Typewriter effect function
+        function typeWriter(element, text, speed = 30) {
+            return new Promise((resolve) => {
+                element.innerHTML = '';
+                let i = 0;
+                
+                function type() {
+                    if (i < text.length) {
+                        if (text.substr(i, 4) === '<br>') {
+                            element.innerHTML += '<br>';
+                            i += 4;
+                        } else if (text.charAt(i) === '<') {
+                            // Handle HTML tags
+                            let tagEnd = text.indexOf('>', i);
+                            if (tagEnd !== -1) {
+                                element.innerHTML += text.substring(i, tagEnd + 1);
+                                i = tagEnd + 1;
+                            } else {
+                                element.innerHTML += text.charAt(i);
+                                i++;
+                            }
+                        } else {
+                            element.innerHTML += text.charAt(i);
+                            i++;
+                        }
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
         // Demo functionality
         document.addEventListener('DOMContentLoaded', function() {
             const commitItems = document.querySelectorAll('.commit-item');
             const socialTabs = document.querySelectorAll('.social-tab');
             const socialContents = document.querySelectorAll('.social-content');
-            const aiThinking = document.getElementById('ai-thinking');
             
             // Commit selection
             commitItems.forEach(item => {
@@ -715,22 +737,8 @@ What performance optimizations made the biggest impact for your product?`
                     commitItems.forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Show AI thinking
-                    aiThinking.classList.add('active');
-                    
-                    // Hide social content temporarily
-                    socialContents.forEach(content => {
-                        content.style.opacity = '0.3';
-                    });
-                    
-                    // Update content after delay
-                    setTimeout(() => {
-                        updateSocialContent(this.dataset.commit);
-                        aiThinking.classList.remove('active');
-                        socialContents.forEach(content => {
-                            content.style.opacity = '1';
-                        });
-                    }, 1500);
+                    // Start typewriter effect
+                    updateSocialContentWithTypewriter(this.dataset.commit);
                 });
             });
             
@@ -744,6 +752,33 @@ What performance optimizations made the biggest impact for your product?`
                     document.getElementById(this.dataset.tab + '-content').classList.add('active');
                 });
             });
+            
+            async function updateSocialContentWithTypewriter(commitType) {
+                const content = demoContent[commitType];
+                const activeTab = document.querySelector('.social-tab.active').dataset.tab;
+                
+                if (activeTab === 'twitter') {
+                    const tweetElement = document.getElementById('tweet-text');
+                    tweetElement.classList.add('typing');
+                    await typeWriter(tweetElement, content.twitter, 25);
+                    tweetElement.classList.remove('typing');
+                } else {
+                    const redditTitleElement = document.getElementById('reddit-title');
+                    const redditContentElement = document.getElementById('reddit-text');
+                    
+                    redditTitleElement.classList.add('typing');
+                    redditContentElement.classList.add('typing');
+                    
+                    redditTitleElement.textContent = '';
+                    redditContentElement.innerHTML = '';
+                    
+                    await typeWriter(redditTitleElement, content.reddit.title, 20);
+                    redditTitleElement.classList.remove('typing');
+                    
+                    await typeWriter(redditContentElement, content.reddit.content, 15);
+                    redditContentElement.classList.remove('typing');
+                }
+            }
             
             function updateSocialContent(commitType) {
                 const content = demoContent[commitType];
