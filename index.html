@@ -819,7 +819,7 @@ What performance optimizations made the biggest impact for your product?`
             button.disabled = true;
             
             // Create the URL with parameters - using manual encoding for better reliability
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwmShfy5sQH0CT4NS42jn-QPMOV179rfYqkcpraWSZwZDNAK8C7H0qOpm4xN375Fqfm/exec';
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbywjjPRN5cKZtHq468zdcQOBvVWMdsrhkBngnyXb5D42zckoAEsD3EQnwSX7u5Cn1Z_0Q/exec';
             const fullUrl = `${scriptUrl}?action=signup&email=${encodeURIComponent(email)}&referral_code=${encodeURIComponent(referralCode || '')}&timestamp=${Date.now()}`;
             
             console.log('Submitting to:', fullUrl);
