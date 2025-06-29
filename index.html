@@ -1019,7 +1019,7 @@ What performance optimizations made the biggest impact for your product?`
                 `;
                 
                 // Create payment intent via Google Apps Script
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzI994xRwLvlVRVXpepKAxroCxYvBsJd3TM5h177oH6ZvH-_ckGjXGgaqwoHXJfzpo8vw/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzgUrGhlCFA0Cjb8aeCNeXhko8K4rF9zQXj3j2b3tWv9NzZ0j7owSYRREWFOFly32UJ0w/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1126,7 +1126,7 @@ What performance optimizations made the biggest impact for your product?`
         async function updatePaymentStatus(paymentIntentId, status) {
             try {
                 const img = new Image();
-                const updateUrl = `https://script.google.com/macros/s/AKfycbzI994xRwLvlVRVXpepKAxroCxYvBsJd3TM5h177oH6ZvH-_ckGjXGgaqwoHXJfzpo8vw/exec?action=payment_success&email=${encodeURIComponent(currentUserEmail)}&payment_intent=${paymentIntentId}&status=${status}&timestamp=${Date.now()}`;
+                const updateUrl = `https://script.google.com/macros/s/AKfycbzgUrGhlCFA0Cjb8aeCNeXhko8K4rF9zQXj3j2b3tWv9NzZ0j7owSYRREWFOFly32UJ0w/exec?action=payment_success&email=${encodeURIComponent(currentUserEmail)}&payment_intent=${paymentIntentId}&status=${status}&timestamp=${Date.now()}`;
                 img.src = updateUrl;
             } catch (error) {
                 console.error('Error updating payment status:', error);
@@ -1234,7 +1234,7 @@ What performance optimizations made the biggest impact for your product?`
             button.disabled = true;
             
             // Create the URL with parameters - using manual encoding for better reliability
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbzI994xRwLvlVRVXpepKAxroCxYvBsJd3TM5h177oH6ZvH-_ckGjXGgaqwoHXJfzpo8vw/exec';
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbzgUrGhlCFA0Cjb8aeCNeXhko8K4rF9zQXj3j2b3tWv9NzZ0j7owSYRREWFOFly32UJ0w/exec';
             const fullUrl = `${scriptUrl}?action=signup&email=${encodeURIComponent(email)}&referral_code=${encodeURIComponent(referralCode || '')}&timestamp=${Date.now()}`;
             
             console.log('Submitting to:', fullUrl);
